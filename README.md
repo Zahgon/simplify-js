@@ -1,9 +1,49 @@
-Simplify.js is a high-performance JavaScript polyline simplification library by Vladimir Agafonkin, extracted from [Leaflet](http://leafletjs.com).
+Simplify.rs is a high-performance Rust polyline simplification library by Vladimir Agafonkin, extracted from [Leaflet](http://leafletjs.com).
 
 Checkout the demo with docs: http://mourner.github.io/simplify-js/
 
+#### Usage
+
+```rust
+use simplify::{simplify, Point2D};
+
+let points = vec![
+    Point2D::new(224.55, 250.15),
+    Point2D::new(226.91, 244.19),
+    Point2D::new(233.31, 241.45),
+    Point2D::new(234.98, 236.06),
+];
+
+// `None` uses a tolerance of 1; the flag asks for the slower, higher-quality mode.
+let simplified = simplify(&points, Some(5.0), false);
+```
+
+Any type can be simplified by implementing `Point`, and the points you pass in
+are the points you get back, so they can carry whatever else you need:
+
+```rust
+use simplify::{simplify, Point};
+
+#[derive(Clone)]
+struct Waypoint { lon: f64, lat: f64, name: String }
+
+impl Point for Waypoint {
+    fn x(&self) -> f64 { self.lon }
+    fn y(&self) -> f64 { self.lat }
+}
+```
+
+#### Building
+
+```
+cargo build --release
+cargo test
+cargo bench
+```
+
 #### Ports
 
+ * JavaScript: [mourner / simplify-js](https://github.com/mourner/simplify-js) (by Vladimir Agafonkin)
  * Python: [omarestrella / simplify.py](https://github.com/omarestrella/simplify.py) (by Omar Estrella)
  * PHP: [AKeN / simplify-php](https://github.com/AKeN/simplify-php) (by Rotari Gheorghe)
  * PHP: [andreychumak / simplify-php](https://github.com/andreychumak/simplify-php) (by Andrey Chumak)

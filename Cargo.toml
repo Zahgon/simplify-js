@@ -1,0 +1,28 @@
+[package]
+name = "simplify-rs"
+version = "1.2.4"
+edition = "2021"
+# The original library ran anywhere Node did; keep the Rust port similarly
+# undemanding about toolchain age rather than tracking the newest compiler.
+rust-version = "1.66"
+description = "A high-performance 2D polyline simplification library"
+homepage = "http://mourner.github.com/simplify-js/"
+repository = "https://github.com/mourner/simplify-js"
+authors = ["Vladimir Agafonkin"]
+license = "BSD-2-Clause"
+readme = "README.md"
+keywords = ["math", "geometry", "polyline", "simplification"]
+categories = ["algorithms"]
+
+[lib]
+name = "simplify"
+path = "src/lib.rs"
+# Benchmarking lives in benches/, so `cargo bench` should not also start the
+# empty libtest harness alongside it.
+bench = false
+
+# No dependencies at all: the library is pure arithmetic, and the benchmark
+# does its own sampling rather than dragging a framework's tree into the build.
+[[bench]]
+name = "bench"
+harness = false
